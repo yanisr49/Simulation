@@ -60,5 +60,14 @@ def debut(nb_conseiller_total, nb_conseiller_appel):
 def ajout_evenement(fonction, temps):
     a = 1
 
+def simulation(nb_conseiller_total, nb_conseiller_appel):
+    global echeancier, hs
+    echeancier = [(debut(nb_conseiller_total, nb_conseiller_appel))]
 
+    while(len(echeancier) > 0):
+        old_hs = hs
+        hs = echeancier[0][1]
+        mise_a_jour_aires(old_hs, hs)
+        echeancier[0][0]()
+        echeancier.remove(0)
 
