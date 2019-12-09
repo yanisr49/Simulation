@@ -19,3 +19,12 @@ def loi_exp_mail():
     if hs < 60:
         return rand.expovariate(2)
     return rand.expovariate(1/5)
+
+def loi_uniform_appel():
+    return rand.uniform(5,15)
+
+def loi_uniform_mail():
+    return rand.uniform(3,7)
+
+def loi_uniform_mail_nuit():
+    return rand.uniform(20,80)

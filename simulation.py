@@ -43,7 +43,7 @@ def initialisation(nb_conseiller_total, nb_conseiller_appel):
     taux_occupation_postes_tel = 0
 
     # Génère mails nuit
-    for i in range(rand.uniform(20,80)):
+    for i in range(loi_uniform_mail_nuit()):
         ajout_evenement(arrive_mail(), hs)
 
     # Génére arrivé mail
