@@ -4,7 +4,7 @@ from mail import *
 from stats import *
 from lois import *
 
-def initialisation(nb_conseiller_total, nb_conseiller_appel):
+def debut(nb_conseiller_total, nb_conseiller_appel):
     """
     Initialise toutes les varible nécessaire au bon fonctionnement de la simulation
 
@@ -56,5 +56,9 @@ def initialisation(nb_conseiller_total, nb_conseiller_appel):
 
     # Génère fin
     ajout_evenement(fin(), hs + 240)
+
+def ajout_evenement(fonction, temps):
+    a = 1
+
 
 
