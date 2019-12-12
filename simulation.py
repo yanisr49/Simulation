@@ -15,6 +15,7 @@ def debut(nb_conseiller_total, nb_conseiller_appel, nb_poste_max):
     :param nb_conseiller_appel: nombre de téléconseiller affectés aux appels
     :param nb_poste_max: nombre de téléconseiller maximum affectés aux appels
     """
+    print("log - début")
 
     # Paramètres
     config.n = nb_conseiller_total
@@ -57,7 +58,7 @@ def debut(nb_conseiller_total, nb_conseiller_appel, nb_poste_max):
 
 
 def fin():
-    print("fin")
+    print("log - fin")
     # Calcul les statistiques de fin
     # l'échéancier est deja vide ?!
     # fin

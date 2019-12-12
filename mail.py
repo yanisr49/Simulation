@@ -7,6 +7,7 @@ import lois
 
 # Procédure Arrivé Mail
 def arrive_mail():
+    print("log - arrive mail")
     import simulation
     config.qm += 1
     x = lois.loi_exp_mail()
@@ -18,6 +19,7 @@ def arrive_mail():
 
 # Procédure Prise en charge Mail
 def prise_en_charge_mail():
+    print("log - prise en charge mail")
     import simulation
     config.qm += 1
     config.cm += 1
@@ -26,6 +28,7 @@ def prise_en_charge_mail():
 
 
 def fin_mail():
+    print("log - fin mail")
     import appel
     import simulation
     if config.qt >= config.ct and config.nt < config.nt_max:
