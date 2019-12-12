@@ -1,32 +1,33 @@
-from simulation import *
-from lois import *
+#! usr/bin/python
+# -*- coding: ISO-8859-1 -*-
+
+import config
+import lois
+import mail
 
 
 def arrive_appel():
-    global hs, qt, ct, nt
-
-    qt = qt + 1
-    x = loi_exp_appel()
-    ajout_evenement(arrive_appel(), hs + x)
-    if ct < nt:
-        ajout_evenement(prise_en_charge_appel(), hs)
+    import simulation
+    config.qt += 1
+    x = lois.loi_exp_appel()
+    simulation.ajout_evenement(lambda: arrive_appel(), config.hs + x)
+    if config.ct < config.nt:
+        simulation.ajout_evenement(lambda: prise_en_charge_appel(), config.hs)
 
 
 def prise_en_charge_appel():
-    global hs, qt, ct
-
-    qt = qt - 1
-    ct = ct + 1
-    x = loi_uniform_appel()
-    ajout_evenement(fin_appel(), hs + x)
+    import simulation
+    config.qt -= 1
+    config.ct += 1
+    x = lois.loi_uniform_appel()
+    simulation.ajout_evenement(lambda: fin_appel(), config.hs + x)
 
 
 def fin_appel():
-    global hs, qt, nt, nm
-
-    if qt > 0:
-        ajout_evenement(prise_en_charge_appel(), hs)
+    import simulation
+    if config.qt > 0:
+        simulation.ajout_evenement(lambda: prise_en_charge_appel(), config.hs)
     else:
-        ajout_evenement(prise_en_charge_mail(), hs)
-        nt = nt - 1
-        nm = nm + 1
+        simulation.ajout_evenement(lambda: mail.prise_en_charge_mail(), config.hs)
+        config.nt -= 1
+        config.nm += 1

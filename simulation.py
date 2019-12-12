@@ -1,73 +1,93 @@
-import random as rand
-from appel import *
-from mail import *
-from stats import *
-from lois import *
+#! usr/bin/python
+# -*- coding: ISO-8859-1 -*-
 
-def debut(nb_conseiller_total, nb_conseiller_appel):
+import config
+import lois
+import mail
+import appel
+
+
+def debut(nb_conseiller_total, nb_conseiller_appel, nb_poste_max):
     """
-    Initialise toutes les varible nÃ©cessaire au bon fonctionnement de la simulation
+    Initialise toutes les varible nécessaire au bon fonctionnement de la simulation
 
-    :param nb_conseiller_total: nombre total de tÃ©lÃ©conseiller
-    :param nb_conseiller_appel: nombre de tÃ©lÃ©conseiller affectÃ©s aux appels
+    :param nb_conseiller_total: nombre total de téléconseiller
+    :param nb_conseiller_appel: nombre de téléconseiller affectés aux appels
+    :param nb_poste_max: nombre de téléconseiller maximum affectés aux appels
     """
 
-    # Appel variables globales
-    global hs, n, nt, nm, ct, cm, qt, qm, aire_ct, aire_cm, aire_qt, aire_qm, nb_appel_traite, nb_mail_traite, nb_mail_non_traite, \
-        tp_attente_client_tel, tp_attente_client_tel, taux_occupation_conseille, taux_occupation_postes_tel
-
-    # ParamÃ¨tres
-    n = nb_conseiller_total
-    nt = nb_conseiller_appel
-    nm = n - nt # nombre de tÃ©lÃ©conseiller affectÃ©s aux mails
+    # Paramètres
+    config.n = nb_conseiller_total
+    config.nt = nb_conseiller_appel
+    config.nm = config.n - config.nt
+    config.nt_max = nb_poste_max
 
     # Initialisation valeurs
-    hs = 0
-    ct = 0
-    cm = 0
-    qt = 0
-    qm = 0
+    config.hs = 0
+    config.ct = 0
+    config.cm = 0
+    config.qt = 0
+    config.qm = 0
 
     # Initialisation indicateurs statistiques
-    aire_ct = 0
-    aire_cm = 0
-    aire_qt = 0
-    aire_qm = 0
+    config.aire_ct = 0
+    config.aire_cm = 0
+    config.aire_qt = 0
+    config.aire_qm = 0
 
-    nb_appel_traite = 0
-    nb_mail_traite = 0
-    nb_mail_non_traite = qm
-    tp_attente_client_tel = 0
-    tp_attente_client_tel = 0
-    taux_occupation_conseille = 0
-    taux_occupation_postes_tel = 0
+    config.nb_appel_traite = 0
+    config.nb_mail_traite = 0
+    config.nb_mail_non_traite = config.qm
+    config.tp_attente_client_tel = 0
+    config.tp_attente_client_tel = 0
+    config.taux_occupation_conseille = 0
+    config.taux_occupation_postes_tel = 0
 
-    # GÃ©nÃ¨re mails nuit
-    for i in range(loi_uniform_mail_nuit()):
-        ajout_evenement(arrive_mail(), hs)
+    # Génère mails nuit
+    for i in range(1):
+        ajout_evenement(lambda: mail.arrive_mail(), config.hs)
 
-    # GÃ©nÃ©re arrivÃ© mail
-    x = loi_exp_appel()
-    ajout_evenement(arrive_mail(), hs + x)
+    # Génére arrivé mail
+    x = lois.loi_exp_appel()
+    ajout_evenement(lambda: mail.arrive_mail(), config.hs + x)
 
-    # GÃ©nÃ©re arrivÃ© appel
-    x = loi_exp_appel()
-    ajout_evenement(arrive_appel(), hs + x)
+    # Génére arrivé appel
+    x = lois.loi_exp_appel()
+    ajout_evenement(lambda: appel.arrive_appel(), config.hs + x)
 
-    # GÃ©nÃ¨re fin
-    ajout_evenement(fin(), hs + 240)
+
+def fin():
+    print("fin")
+    # Calcul les statistiques de fin
+    # l'échéancier est deja vide ?!
+    # fin
+
 
 def ajout_evenement(fonction, temps):
-    a = 1
+    ajouter = False
+    i = 0
 
-def simulation(nb_conseiller_total, nb_conseiller_appel):
-    global echeancier, hs
-    echeancier = [(debut(nb_conseiller_total, nb_conseiller_appel))]
+    while ajouter == False and i < len(config.echeancier):
+        if temps < config.echeancier[i][1]:
+            ajouter = True
+        i += 1
+    if ajouter:
+        config.echeancier.insert(i - 1, (fonction, temps))
 
-    while(len(echeancier) > 0):
-        old_hs = hs
-        hs = echeancier[0][1]
-        mise_a_jour_aires(old_hs, hs)
-        echeancier[0][0]()
-        echeancier.remove(0)
 
+def simulation(nb_conseiller_total, nb_conseiller_appel, nb_poste_max):
+    config.hs = 0
+    config.echeancier = [(lambda: fin(), config.hs + 240)]
+    debut(nb_conseiller_total, nb_conseiller_appel, nb_poste_max)
+
+    while (config.echeancier[0][1] < 240):
+        old_hs = config.hs
+        config.hs = config.echeancier[0][1]
+        # mise_a_jour_aires(old_hs, config.hs)
+        config.echeancier[0][0]()
+        del config.echeancier[0]
+    config.echeancier[0][0]()
+
+
+if __name__ == "__main__":
+    simulation(10, 2, 5)

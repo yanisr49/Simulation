@@ -1,21 +1,38 @@
-import lois.py
-from simulation import ajout_evenement
+#! usr/bin/python
+# -*- coding: ISO-8859-1 -*-
 
-# ProcÃ©dure ArrivÃ© Mail
-def arrive_mail() :
-    global qm, hs, cm, nm
-    qm = qm + 1
+import config
+import lois
+
+
+# Procédure Arrivé Mail
+def arrive_mail():
+    import simulation
+    config.qm += 1
     x = lois.loi_exp_mail()
-    ajout_evenement(arrive_mail(), hs + x)
-    if cm < nm :
-        ajout_evenement(arrive_mail(), hs + 1)
+    if config.echeancier[0][1] > 0:
+        simulation.ajout_evenement(lambda: arrive_mail(), config.hs + x)
+    if config.cm < config.nm:
+        simulation.ajout_evenement(lambda: prise_en_charge_mail(), config.hs)
 
 
-
-#ProcÃ©dure Prise en charge Mail
-def prise_en_charge_mail() :
-    global qm, hs, cm
-    qm = qm + 1
-    cm = cm + 1
+# Procédure Prise en charge Mail
+def prise_en_charge_mail():
+    import simulation
+    config.qm += 1
+    config.cm += 1
     x = lois.loi_uniform_mail()
-    ajout_evenement(prise_en_charge_mail(), hs + x)
+    simulation.ajout_evenement(lambda: fin_mail(), config.hs + x)
+
+
+def fin_mail():
+    import appel
+    import simulation
+    if config.qt >= config.ct and config.nt < config.nt_max:
+        simulation.ajout_evenement(lambda: appel.prise_en_charge_appel(), config.hs)
+        config.nt += 1
+        config.nm -= 1
+    else:
+        simulation.ajout_evenement(lambda: prise_en_charge_mail(), config.hs)
+        config.nt -= 1
+        config.nm += 1

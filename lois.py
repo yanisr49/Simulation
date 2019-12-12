@@ -1,26 +1,25 @@
+#! usr/bin/python
+# -*- coding: ISO-8859-1 -*-
+
 import random as rand
+import config
 
 
 def loi_exp_appel():
-
-    global hs
-
     x = 0
-    if hs < 60:
-        return rand.expovariate(1/5)
-    elif hs >= 60 and hs < 180:
+    if config.hs < 60:
+        return rand.expovariate(0.2)
+    elif 60 <= config.hs < 180:
         return rand.expovariate(1)
-    return rand.expovariate(1/10)
+    return rand.expovariate(0.1)
 
 
 def loi_exp_mail():
 
-    global hs
-
     x = 0
-    if hs < 60:
+    if config.hs < 60:
         return rand.expovariate(2)
-    return rand.expovariate(1/5)
+    return rand.expovariate(0.2)
 
 
 def loi_uniform_appel():
@@ -32,4 +31,4 @@ def loi_uniform_mail():
 
 
 def loi_uniform_mail_nuit():
-    return rand.uniform(20,80)
+    return rand.randint(20,80)
