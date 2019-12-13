@@ -11,8 +11,7 @@ def arrive_mail():
     import simulation
     config.qm += 1
     x = lois.loi_exp_mail()
-    if config.echeancier[0][1] > 0:
-        simulation.ajout_evenement(lambda: arrive_mail(), config.hs + x)
+    simulation.ajout_evenement(lambda: arrive_mail(), config.hs + x)
     if config.cm < config.nm:
         simulation.ajout_evenement(lambda: prise_en_charge_mail(), config.hs)
 

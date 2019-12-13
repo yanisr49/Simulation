@@ -46,8 +46,8 @@ def debut(nb_conseiller_total, nb_conseiller_appel, nb_poste_max):
     config.taux_occupation_postes_tel = 0
 
     # Génère mails nuit
-    for i in range(1):
-        ajout_evenement(lambda: mail.arrive_mail(), config.hs)
+    config.qm += lois.loi_uniform_mail_nuit() - 1
+    ajout_evenement(lambda: mail.arrive_mail(), config.hs)
 
     # Génére arrivé mail
     x = lois.loi_exp_appel()
@@ -96,4 +96,4 @@ def simulation(nb_conseiller_total, nb_conseiller_appel, nb_poste_max):
 
 
 if __name__ == "__main__":
-    simulation(15, 2, 10)
+    simulation(50, 2, 20)

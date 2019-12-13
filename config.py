@@ -15,7 +15,4 @@ nb_appel_traite = 0
 nb_mail_traite = 0
 nb_appel_non_traite = 0
 nb_mail_non_traite = 0
-tp_attente_client_tel = 0
-taux_occupation_conseille = 0
-taux_occupation_postes_tel = 0
 echeancier = 0
