@@ -16,7 +16,7 @@ def debut(nb_conseiller_total, nb_conseiller_appel, nb_poste_max):
     :param nb_conseiller_appel: nombre de téléconseiller affectés aux appels
     :param nb_poste_max: nombre de téléconseiller maximum affectés aux appels
     """
-    #print("log - début")
+    # print("log - début")
 
     # Paramètres
     config.n = nb_conseiller_total
@@ -64,10 +64,12 @@ def fin():
     print("Nombre mail traite : " + str(config.nb_mail_traite))
     print("Nombre appel non traite : " + str(config.qt))
     print("Nombre mail non traite : " + str(config.qm))
-    print("Temps moyen dans la queue (appel) : " + str(config.aire_qt/(config.qt+config.ct+config.nb_appel_traite)) + " min")
-    print("Temps moyen dans la queue (mail) : " + str(config.aire_qm/(config.qm+config.cm+config.nb_mail_traite)) + " min")
-    print("Taux occupation conseille : " + str((config.aire_ct + config.aire_cm)/(240 * config.n)) + " %")
-    print("Taux occupation poste telephonique : " + str(config.aire_ct/(240 * config.nt_max)) + " %")
+    print("Temps moyen dans la queue (appel) : " + str(
+        config.aire_qt / (config.qt + config.ct + config.nb_appel_traite)) + " min")
+    print("Temps moyen dans la queue (mail) : " + str(
+        config.aire_qm / (config.qm + config.cm + config.nb_mail_traite)) + " min")
+    print("Taux occupation conseille : " + str((config.aire_ct + config.aire_cm) / (240 * config.n)) + " %")
+    print("Taux occupation poste telephonique : " + str(config.aire_ct / (240 * config.nt_max)) + " %")
 
 
 def ajout_evenement(fonction, temps):
@@ -83,8 +85,7 @@ def simulation(nb_conseiller_total, nb_conseiller_appel, nb_poste_max):
     config.echeancier = [(lambda: fin(), config.hs + 240)]
     debut(nb_conseiller_total, nb_conseiller_appel, nb_poste_max)
 
-    i = 1
-    while (config.echeancier[0][1] < 240):
+    while config.echeancier[0][1] < 240:
         old_hs = config.hs
         config.hs = config.echeancier[0][1]
         stats.mise_a_jour_aires(old_hs, config.hs)
