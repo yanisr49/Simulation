@@ -67,8 +67,8 @@ def fin():
         config.aire_qt / (config.qt + config.ct + config.nb_appel_traite)) + " min")
     print("Temps moyen dans la queue (mail) : " + str(
         config.aire_qm / (config.qm + config.cm + config.nb_mail_traite)) + " min")
-    print("Taux occupation conseille : " + str((config.aire_ct + config.aire_cm) / (240 * config.n)) + " %")
-    print("Taux occupation poste telephonique : " + str(config.aire_ct / (240 * config.nt_max)) + " %")
+    print("Taux occupation conseille : " + str((config.aire_ct + config.aire_cm) / (240 * config.n) * 100) + " %")
+    print("Taux occupation poste telephonique : " + str(config.aire_ct / (240 * config.nt_max) * 100) + " %")
 
 
 def ajout_evenement(fonction, temps):
