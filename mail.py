@@ -1,11 +1,11 @@
 #! usr/bin/python
-# -*- coding: ISO-8859-1 -*-
+# -*- coding: utf-8 -*-
 
 import config
 import lois
 
 
-# Procédure Arrivé Mail
+# ProcÃ©dure ArrivÃ© Mail
 def arrive_mail():
     # print("log - arrive mail")
     import simulation
@@ -16,7 +16,7 @@ def arrive_mail():
         simulation.ajout_evenement(lambda: prise_en_charge_mail(), config.hs)
 
 
-# Procédure Prise en charge Mail
+# ProcÃ©dure Prise en charge Mail
 def prise_en_charge_mail():
     # print("log - prise en charge mail")
     import simulation

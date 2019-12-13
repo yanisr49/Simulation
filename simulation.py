@@ -1,5 +1,5 @@
 #! usr/bin/python
-# -*- coding: ISO-8859-1 -*-
+# -*- coding: utf-8 -*-
 
 import config
 import lois
@@ -10,15 +10,15 @@ import stats
 
 def debut(nb_conseiller_total, nb_conseiller_appel, nb_poste_max):
     """
-    Initialise toutes les varible nécessaire au bon fonctionnement de la simulation
+    Initialise toutes les varible nÃ©cessaire au bon fonctionnement de la simulation
 
-    :param nb_conseiller_total: nombre total de téléconseiller
-    :param nb_conseiller_appel: nombre de téléconseiller affectés aux appels
-    :param nb_poste_max: nombre de téléconseiller maximum affectés aux appels
+    :param nb_conseiller_total: nombre total de tÃ©lÃ©conseiller
+    :param nb_conseiller_appel: nombre de tÃ©lÃ©conseiller affectÃ©s aux appels
+    :param nb_poste_max: nombre de tÃ©lÃ©conseiller maximum affectÃ©s aux appels
     """
-    # print("log - début")
+    # print("log - dÃ©but")
 
-    # Paramètres
+    # ParamÃ¨tres
     config.n = nb_conseiller_total
     config.nt = nb_conseiller_appel
     config.nm = config.n - config.nt
@@ -45,15 +45,15 @@ def debut(nb_conseiller_total, nb_conseiller_appel, nb_poste_max):
     config.taux_occupation_conseille = 0
     config.taux_occupation_postes_tel = 0
 
-    # Génère mails nuit
+    # GÃ©nÃ¨re mails nuit
     config.qm += lois.loi_uniform_mail_nuit() - 1
     ajout_evenement(lambda: mail.arrive_mail(), config.hs)
 
-    # Génére arrivé mail
+    # GÃ©nÃ©re arrivÃ© mail
     x = lois.loi_exp_appel()
     ajout_evenement(lambda: mail.arrive_mail(), config.hs + x)
 
-    # Génére arrivé appel
+    # GÃ©nÃ©re arrivÃ© appel
     x = lois.loi_exp_appel()
     ajout_evenement(lambda: appel.arrive_appel(), config.hs + x)
 
