@@ -92,4 +92,5 @@ def simulation(nb_conseiller_total, nb_conseiller_appel, nb_poste_max):
 
 
 if __name__ == "__main__":
-    simulation(10, 2, 5)
+    #nb_conseiller_total (N), nb_conseiller (Ntdebut)_appel, nb_poste_max (Ntmax)
+    simulation(10, 5, 10)
