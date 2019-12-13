@@ -1,5 +1,5 @@
 #! usr/bin/python
-# -*- coding: ISO-8859-1 -*-
+# -*- coding: UTF-8 -*-
 
 import config
 import lois
@@ -22,17 +22,17 @@ def prise_en_charge_appel():
     config.qt -= 1
     config.ct += 1
     x = lois.loi_uniform_appel()
-    print(x)
     simulation.ajout_evenement(lambda: fin_appel(), config.hs + x)
 
 
 def fin_appel():
     # print("log - fin appel")
     import simulation
+    config.ct -= 1
     config.nb_appel_traite += 1
     if config.qt > 0:
         simulation.ajout_evenement(lambda: prise_en_charge_appel(), config.hs)
-    else:
+    elif config.qm > 0:
         simulation.ajout_evenement(lambda: mail.prise_en_charge_mail(), config.hs)
         config.nt -= 1
         config.nm += 1
