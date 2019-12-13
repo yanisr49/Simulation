@@ -39,11 +39,8 @@ def debut(nb_conseiller_total, nb_conseiller_appel, nb_poste_max):
 
     config.nb_appel_traite = 0
     config.nb_mail_traite = 0
+    config.nb_appel_non_traite = config.qm
     config.nb_mail_non_traite = config.qm
-    config.tp_attente_client_tel = 0
-    config.tp_attente_client_tel = 0
-    config.taux_occupation_conseille = 0
-    config.taux_occupation_postes_tel = 0
 
     # Génère mails nuit
     config.qm += lois.loi_uniform_mail_nuit() - 1
@@ -95,4 +92,4 @@ def simulation(nb_conseiller_total, nb_conseiller_appel, nb_poste_max):
 
 
 if __name__ == "__main__":
-    simulation(20, 2, 10)
+    simulation(10, 2, 5)
