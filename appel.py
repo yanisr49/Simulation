@@ -22,7 +22,6 @@ def prise_en_charge_appel():
     config.qt -= 1
     config.ct += 1
     x = lois.loi_uniform_appel()
-    print(x)
     simulation.ajout_evenement(lambda: fin_appel(), config.hs + x)
 
 

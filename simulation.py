@@ -59,7 +59,6 @@ def debut(nb_conseiller_total, nb_conseiller_appel, nb_poste_max):
 
 
 def fin():
-    print("log - fin\n")
     print("Nombre appel traite : " + str(config.nb_appel_traite))
     print("Nombre mail traite : " + str(config.nb_mail_traite))
     print("Nombre appel non traite : " + str(config.qt))
