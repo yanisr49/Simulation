@@ -16,6 +16,4 @@ aire_qt = 0
 aire_qm = 0
 nb_appel_traite = 0
 nb_mail_traite = 0
-nb_appel_non_traite = 0
-nb_mail_non_traite = 0
 echeancier = 0
