@@ -5,6 +5,7 @@ import config
 import lois
 import mail
 import appel
+import stats
 
 
 def debut(nb_conseiller_total, nb_conseiller_appel, nb_poste_max):
@@ -15,7 +16,7 @@ def debut(nb_conseiller_total, nb_conseiller_appel, nb_poste_max):
     :param nb_conseiller_appel: nombre de téléconseiller affectés aux appels
     :param nb_poste_max: nombre de téléconseiller maximum affectés aux appels
     """
-    print("log - début")
+    #print("log - début")
 
     # Paramètres
     config.n = nb_conseiller_total
@@ -58,22 +59,23 @@ def debut(nb_conseiller_total, nb_conseiller_appel, nb_poste_max):
 
 
 def fin():
-    print("log - fin")
-    # Calcul les statistiques de fin
-    # l'échéancier est deja vide ?!
-    # fin
+    print("log - fin\n")
+    print("Nombre appel traite : " + str(config.nb_appel_traite))
+    print("Nombre mail traite : " + str(config.nb_mail_traite))
+    print("Nombre appel non traite : " + str(config.qt))
+    print("Nombre mail non traite : " + str(config.qm))
+    print("Temps moyen dans la queue (appel) : " + str(config.aire_qt/(config.qt+config.ct+config.nb_appel_traite)) + " min")
+    print("Temps moyen dans la queue (mail) : " + str(config.aire_qm/(config.qm+config.cm+config.nb_mail_traite)) + " min")
+    print("Taux occupation conseille : " + str((config.aire_ct + config.aire_cm)/(240 * config.n)) + " %")
+    print("Taux occupation poste telephonique : " + str(config.aire_ct/(240 * config.nt_max)) + " %")
 
 
 def ajout_evenement(fonction, temps):
-    ajouter = False
     i = 0
-
-    while ajouter == False and i < len(config.echeancier):
-        if temps < config.echeancier[i][1]:
-            ajouter = True
-        i += 1
-    if ajouter:
-        config.echeancier.insert(i - 1, (fonction, temps))
+    if temps < 240:
+        while temps >= config.echeancier[i][1]:
+            i += 1
+        config.echeancier.insert(i, (fonction, temps))
 
 
 def simulation(nb_conseiller_total, nb_conseiller_appel, nb_poste_max):
@@ -81,14 +83,16 @@ def simulation(nb_conseiller_total, nb_conseiller_appel, nb_poste_max):
     config.echeancier = [(lambda: fin(), config.hs + 240)]
     debut(nb_conseiller_total, nb_conseiller_appel, nb_poste_max)
 
+    i = 1
     while (config.echeancier[0][1] < 240):
         old_hs = config.hs
         config.hs = config.echeancier[0][1]
-        # mise_a_jour_aires(old_hs, config.hs)
+        stats.mise_a_jour_aires(old_hs, config.hs)
         config.echeancier[0][0]()
         del config.echeancier[0]
+
     config.echeancier[0][0]()
 
 
 if __name__ == "__main__":
-    simulation(10, 2, 5)
+    simulation(15, 2, 10)
