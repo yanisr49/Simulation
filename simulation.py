@@ -109,28 +109,39 @@ def indicateurs():
 
 
 if __name__ == "__main__":
+
+    nb_conseille_total_min = 12
+    nb_conseille_total_max = 18
+    nb_poste_min = 8
+    nb_poste_max = nb_conseille_total_max
+    nb_conseille_appel = 5
+    n = 100
+
     best_eval = 0
     best_parametres = []
     best_indicateurs = []
+    nb_boucle = 0
 
-    nb_conseille_total_min = 15
-    nb_conseille_total_max = 20
-    for nb_conseille_total in range(nb_conseille_total_min, nb_conseille_total_max):
-        print("Simulation : " + str((nb_conseille_total-nb_conseille_total_min) / float(nb_conseille_total_max-nb_conseille_total_min-1) * 100) + "%")
-        for nb_poste in range(8, nb_conseille_total):
-            for nb_conseille_appel in range(nb_conseille_total):
-                eval = 0
-                ind = [0]*8
-                n = 3
-                for i in range(n):
-                    simulation(nb_conseille_total, nb_conseille_appel, nb_poste)
-                    evaluation(1, 1, 1, 1, 1, 1)
-                    indicateurs()
-                if eval > best_eval:
-                    best_eval = eval
-                    best_parametres = [nb_conseille_total, nb_conseille_appel, nb_poste]
-                    best_indicateurs = [(value / n) for value in ind]
+    for nb_conseille_total in range(nb_conseille_total_min, nb_conseille_total_max+1):
+        print("Simulation : " + str((nb_conseille_total-nb_conseille_total_min) / float(nb_conseille_total_max-nb_conseille_total_min) * 100) + "%")
 
+        for nb_poste in range(nb_poste_min, nb_poste_max+1):
+            #for nb_conseille_appel in range(nb_conseille_total):
+            eval = 0
+            ind = [0]*8
+            for _ in range(n):
+                simulation(nb_conseille_total, nb_conseille_appel, nb_poste)
+                evaluation(1, 1, 5, 0, 1, 1)
+                indicateurs()
+                nb_boucle += 1
+
+            if eval > best_eval:
+                best_eval = eval
+                best_parametres = [nb_conseille_total, nb_conseille_appel, nb_poste]
+                best_indicateurs = [(value / n) for value in ind]
+
+    # Affichage des résultats de la simulation
+    print("\nNombre de simulation : " + str(nb_boucle))
     print("\nNombre conseillé total : " + str(best_parametres[0]))
     print("Nombre conseillé appel : " + str(best_parametres[1]))
     print("Nombre poste : " + str(best_parametres[2]))
@@ -145,3 +156,4 @@ if __name__ == "__main__":
     print("Temps moyen dans la queue (mail) : " + str(best_indicateurs[5]) + " min")
     print("Taux occupation conseille : " + str(best_indicateurs[6]) + " %")
     print("Taux occupation poste telephonique : " + str(best_indicateurs[7]) + " %")
+    wait = input("\nAppuyez sur 'entrer' pour quitter ...")
